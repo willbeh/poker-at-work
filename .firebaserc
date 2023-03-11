@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "poker-at-work": {
+      "hosting": {
+        "poker-at-work": [
+          "poker-at-work"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "poker-at-work"
+  }
+}
