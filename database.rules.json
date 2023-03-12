@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "rooms": {
+      "$room": {
+        ".write": "!data.exists() || (auth !== null && data.child('owner').val() === auth.uid)",
+        ".read": true,
+        "presence": {
+          "$presenceId": {
+            ".write": "!data.exists() || (auth !== null && $presenceId === auth.uid)",
+            ".read": true
+          }
+        }
+      }
+    }
+  }
+}
