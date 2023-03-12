@@ -18,17 +18,23 @@
       <ng-container *ngIf="story$ | async as story">
         <ng-container *ngIf="story.status === 'active'; else completed">
           <app-option-selection [options]="vm.room.options" (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)"/>
+
+          <ng-container *ngIf="vm.room.owner === vm.user.uid">
+            <button mat-raised-button color="primary" (click)="manualComplete(story)" class="mt-4" [disabled]="!story.votes">
+              Manual Complete
+            </button>
+          </ng-container>
         </ng-container>
 
         <ng-template #completed>
           <div class="text-2xl mb-4">Average: <span class="font-bold">{{ story.average }}</span></div>
           <div *ngFor="let vote of story.votes | keyvalue" class="mb-4">
-            <div class="text-xl">{{ ((vote.key | profile) | async)?.name }}: <span>{{ vote.value }}</span></div>
+            <div class="text-xl">
+              {{ ((vote.key | profile) | async)?.name }}: <span>{{ vote.value === -1 ? '?': vote.value }}</span>
+            </div>
           </div>
 
-          <ng-container *ngIf="vm.room.owner === vm.user.uid">
-            <button mat-raised-button color="primary" (click)="newStory(vm.room.id!)">New Story</button>
-          </ng-container>
+          <button mat-raised-button color="primary" (click)="newStory(vm.room.id!)">New Story</button>
           
         </ng-template>
       </ng-container>
@@ -36,7 +42,10 @@
       <ng-container *ngIf="vm.room.owner === vm.user.uid">
         <ng-container *ngIf="updater$ | async"></ng-container>
       </ng-container>
-      
+
+      <div class="mt-8">
+        <app-story-list [roomId]="vm.room.id!"/>
+      </div>
     </div>
   </div>
   

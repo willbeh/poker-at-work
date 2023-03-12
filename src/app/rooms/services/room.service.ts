@@ -70,8 +70,25 @@ export class RoomService {
     });
   }
 
+  getStories(roomId: string) {
+    const q = query(
+      ref(this.db, 'stories'),
+      orderByChild('roomId'),
+      equalTo(roomId)
+    );
+    return objectVal<{ [key: string]: Story }>(q).pipe(
+      map((stories) => {
+        const storiesArray: Story[] = [];
+        for (let key in stories) {
+          storiesArray.push({ ...stories[key], id: key });
+        }
+        return storiesArray.reverse();
+      })
+    );
+  }
+
   processStory(story: Story) {
-    const votes = Object.values(story.votes!);
+    const votes = Object.values(story.votes!).filter((v) => v > 0);
     const sum = votes.reduce((a, b) => a + b, 0);
     const average = sum / votes.length || 0;
 

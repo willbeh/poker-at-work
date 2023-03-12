@@ -4,11 +4,8 @@
       "$room": {
         ".write": "!data.exists() || (auth !== null && data.child('owner').val() === auth.uid)",
         ".read": true,
-        "presence": {
-          "$presenceId": {
-            ".write": "!data.exists() || (auth !== null && $presenceId === auth.uid)",
-            ".read": true
-          }
+        "storyId": {
+          ".write": "!data.exists() || auth !== null"
         }
       }
     },
@@ -19,9 +16,9 @@
       }
     },
     "stories": {
+      ".read": true,
       "$story": {
-        ".write": "!data.exists() || auth !== null",
-        ".read": true
+        ".write": "!data.exists() || auth !== null"
       }
     },
     "profiles": {

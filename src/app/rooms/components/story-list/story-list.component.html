@@ -1,0 +1,8 @@
+<div *ngIf="stories$ | async as stories">
+  <div *ngFor="let story of stories">
+    <div *ngIf="story.status === 'completed'" class="flex">
+      {{ story.date | date : "medium" }} - Average:
+      <div class="font-bold ml-2">{{ story.average }}</div>
+    </div>
+  </div>
+</div>

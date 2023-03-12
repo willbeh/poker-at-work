@@ -17,6 +17,8 @@ import { OptionSelectionComponent } from '../../components/option-selection/opti
 import { MatIconModule } from '@angular/material/icon';
 import { ProfilePipe } from 'src/app/shared/pipes/profile.pipe';
 import { MatButtonModule } from '@angular/material/button';
+import { Story } from '../../models/story';
+import { StoryListComponent } from '../../components/story-list/story-list.component';
 
 @Component({
   selector: 'app-room',
@@ -24,11 +26,12 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     RouterModule,
-    PresenceComponent,
-    OptionSelectionComponent,
     MatIconModule,
     MatButtonModule,
     ProfilePipe,
+    PresenceComponent,
+    OptionSelectionComponent,
+    StoryListComponent,
   ],
   templateUrl: './room.component.html',
   styles: [],
@@ -63,7 +66,7 @@ export class RoomComponent {
   );
 
   updater$ = combineLatest(this.presence$, this.story$).pipe(
-    debounceTime(2000),
+    debounceTime(1000),
     shareReplay(1),
     tap(([presence, story]) => {
       const notVoted = presence.filter(
@@ -103,5 +106,9 @@ export class RoomComponent {
 
   newStory(roomId: string) {
     this.roomService.createStory(roomId);
+  }
+
+  manualComplete(story: Story) {
+    this.roomService.processStory(story);
   }
 }
