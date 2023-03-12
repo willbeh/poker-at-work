@@ -1,8 +1,36 @@
 <div *ngIf="vm$ | async as vm">
-  <app-presence [roomId]="vm.room.id!">
-    <ng-template let-presence>
-      <h4>{{ presence.uid }}</h4>
-    </ng-template>
-  </app-presence>
-  <app-option-selection [options]="vm.room.options"/>
+  <h1>Room {{ vm.room.name }}</h1>
+  <div class="grid grid-cols-4">
+    <div class="p-4">
+      <app-presence [roomId]="vm.room.id!">
+        <ng-template let-presence>
+          <ng-container *ngIf="story$ | async as story">
+            <mat-icon *ngIf="story.votes?.[presence.uid]; else notVoted" class="text-green-600">check_circle</mat-icon>
+    
+            <ng-template #notVoted>
+              <mat-icon class="text-gray-400">help</mat-icon>
+            </ng-template>
+          </ng-container>      
+        </ng-template>
+      </app-presence>
+    </div>
+    <div class="col-span-3 p-4">
+      <ng-container *ngIf="story$ | async as story">
+        <ng-container *ngIf="story.status === 'active'; else completed">
+          <app-option-selection [options]="vm.room.options" (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)"/>
+        </ng-container>
+
+        <ng-template #completed>
+          <div class="text-2xl">Average: <span class="font-bold">{{ story.average }}</span></div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngIf="vm.room.owner === vm.user.uid">
+        <h4>Owner</h4>
+        <ng-container *ngIf="updater$ | async"></ng-container>
+      </ng-container>
+      
+    </div>
+  </div>
+  
 </div>

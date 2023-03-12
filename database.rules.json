@@ -23,6 +23,12 @@
         ".write": "!data.exists() || auth !== null",
         ".read": true
       }
+    },
+    "profiles": {
+      "$uid": {
+        ".write": "!data.exists() || (auth !== null && $uid === auth.uid)",
+        ".read": true
+      }
     }
   }
 }

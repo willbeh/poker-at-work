@@ -12,10 +12,12 @@ import {
   query,
   equalTo,
   orderByChild,
+  update,
 } from '@angular/fire/database';
 import { map, shareReplay } from 'rxjs';
 import { Presence } from '../models/presence';
 import { Room } from '../models/room';
+import { Story } from '../models/story';
 
 @Injectable({ providedIn: 'root' })
 export class RoomService {
@@ -29,19 +31,13 @@ export class RoomService {
       options: [1, 2, 3, 5, 8, 13, 20, 40],
     });
 
-    const story = this.createStory(room.key!);
-
-    set(ref(this.db, `rooms/${room.key}/storyId`), story.key);
+    this.createStory(room.key!);
 
     return room;
   }
 
-  createStory(roomId: string) {
-    return push(ref(this.db, `stories`), {
-      date: serverTimestamp(),
-      roomId,
-      status: 'active',
-    });
+  updateRoom(roomId: string, data: Partial<Room>) {
+    return update(ref(this.db, `rooms/${roomId}`), data);
   }
 
   getRoom(roomId: string) {
@@ -50,8 +46,39 @@ export class RoomService {
     }).pipe(shareReplay(1));
   }
 
+  createStory(roomId: string) {
+    const story = push(ref(this.db, `stories`), {
+      date: serverTimestamp(),
+      roomId,
+      status: 'active',
+    });
+
+    this.updateRoom(roomId, { storyId: story.key! });
+  }
+
+  updateStory(storyId: string, data: any) {
+    return update(ref(this.db, `stories/${storyId}`), data);
+  }
+
+  updateStoryVote(storyId: string, uid: string, vote: number) {
+    return set(ref(this.db, `stories/${storyId}/votes/${uid}`), vote);
+  }
+
+  getStory(storyId: string) {
+    return objectVal<Story>(ref(this.db, `stories/${storyId}`), {
+      keyField: 'id',
+    });
+  }
+
+  processStory(story: Story) {
+    const votes = Object.values(story.votes!);
+    const sum = votes.reduce((a, b) => a + b, 0);
+    const average = sum / votes.length || 0;
+
+    this.updateStory(story.id!, { average, status: 'completed' });
+  }
+
   getPresence(roomId: string) {
-    console.log('getPresence', roomId);
     const q = query(
       ref(this.db, 'presence'),
       orderByChild('q'),

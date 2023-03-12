@@ -1,5 +1,5 @@
 <div *ngIf="people$ | async as people">
-  <div *ngFor="let presence of people">
+  <div *ngFor="let presence of people" class="flex gap-2 mb-2">
     <div>{{ presence.name }}</div>
     <ng-container
       *ngTemplateOutlet="templateOutlet; context: { $implicit: presence }"

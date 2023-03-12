@@ -7,15 +7,23 @@ import {
   User,
 } from '@angular/fire/auth';
 import { map, shareReplay, tap } from 'rxjs/operators';
+import { ProfileService } from './profile.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private auth = inject(Auth);
+  private profileService = inject(ProfileService);
 
   user$ = authState(this.auth).pipe(
-    tap((user) => {
+    tap(async (user) => {
       if (!user) {
-        signInAnonymously(this.auth);
+        await signInAnonymously(this.auth);
+      }
+
+      const profile = await this.profileService.getProfile(user!.uid);
+
+      if (!profile.exists()) {
+        await this.profileService.createProfile(user!);
       }
     }),
     shareReplay(1)
@@ -30,7 +38,8 @@ export class AuthService {
     })
   );
 
-  updateName(user: User, name: string) {
-    return updateProfile(user, { displayName: name });
+  async updateName(user: User, name: string) {
+    await this.profileService.updateProfile(user.uid, { name });
+    return await updateProfile(user, { displayName: name });
   }
 }
