@@ -15,6 +15,8 @@ import {
 import { PresenceComponent } from '../../components/presence/presence.component';
 import { OptionSelectionComponent } from '../../components/option-selection/option-selection.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ProfilePipe } from 'src/app/shared/pipes/profile.pipe';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-room',
@@ -25,6 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
     PresenceComponent,
     OptionSelectionComponent,
     MatIconModule,
+    MatButtonModule,
+    ProfilePipe,
   ],
   templateUrl: './room.component.html',
   styles: [],
@@ -95,5 +99,9 @@ export class RoomComponent {
 
   updateStoryVote(storyId: string, uid: string, vote: number) {
     this.roomService.updateStoryVote(storyId, uid, vote);
+  }
+
+  newStory(roomId: string) {
+    this.roomService.createStory(roomId);
   }
 }

@@ -21,12 +21,19 @@
         </ng-container>
 
         <ng-template #completed>
-          <div class="text-2xl">Average: <span class="font-bold">{{ story.average }}</span></div>
+          <div class="text-2xl mb-4">Average: <span class="font-bold">{{ story.average }}</span></div>
+          <div *ngFor="let vote of story.votes | keyvalue" class="mb-4">
+            <div class="text-xl">{{ ((vote.key | profile) | async)?.name }}: <span>{{ vote.value }}</span></div>
+          </div>
+
+          <ng-container *ngIf="vm.room.owner === vm.user.uid">
+            <button mat-raised-button color="primary" (click)="newStory(vm.room.id!)">New Story</button>
+          </ng-container>
+          
         </ng-template>
       </ng-container>
 
       <ng-container *ngIf="vm.room.owner === vm.user.uid">
-        <h4>Owner</h4>
         <ng-container *ngIf="updater$ | async"></ng-container>
       </ng-container>
       

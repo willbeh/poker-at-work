@@ -14,10 +14,9 @@ import {
 } from '@angular/fire/analytics';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
-import { ProfilePipe } from './shared/pipes/profile.pipe';
 
 @NgModule({
-  declarations: [AppComponent, ProfilePipe],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
