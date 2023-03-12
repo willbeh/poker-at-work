@@ -6,7 +6,7 @@ import {
   updateProfile,
   User,
 } from '@angular/fire/auth';
-import { map, tap } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -14,10 +14,12 @@ export class AuthService {
 
   user$ = authState(this.auth).pipe(
     tap((user) => {
+      console.log('user', user);
       if (!user) {
         signInAnonymously(this.auth);
       }
-    })
+    }),
+    shareReplay(1)
   );
 
   authUser$ = this.user$.pipe(

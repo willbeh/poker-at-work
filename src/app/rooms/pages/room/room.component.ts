@@ -17,16 +17,18 @@ export class RoomComponent {
   private route = inject(ActivatedRoute);
   private roomService = inject(RoomService);
 
-  user$ = this.authService.user$.pipe(
+  vm$ = this.authService.user$.pipe(
     withLatestFrom(this.route.params),
     map(([user, params]) => {
-      console.log('user', user);
       if (!user) {
         return;
       }
-      console.log('user', user.uid, params['id']);
       this.roomService.presence(params['id'], user);
-      return user;
+
+      return {
+        user,
+        roomId: params['id'],
+      };
     })
   );
 

@@ -1,2 +1,6 @@
 <p>room works!</p>
-<div *ngIf="user$ | async as user">aaa{{ user }}</div>
+<div *ngIf="vm$ | async as vm">
+  <div>
+    {{ vm.user.displayName }}
+  </div>
+</div>
