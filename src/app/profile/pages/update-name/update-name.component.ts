@@ -40,8 +40,6 @@ export class UpdateNameComponent {
   vm$ = this.authService.user$.pipe(
     withLatestFrom(this.route.queryParams),
     map(([user, params]) => {
-      console.log('params', params);
-      console.log('user', user);
       const path = 'history' in params ? decodeURI(params['history']) : '/';
 
       return {

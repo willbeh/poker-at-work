@@ -18,6 +18,7 @@ export class AuthService {
     tap(async (user) => {
       if (!user) {
         await signInAnonymously(this.auth);
+        return;
       }
 
       const profile = await this.profileService.getProfile(user!.uid);
