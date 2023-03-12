@@ -1,6 +1,6 @@
 <div class="h-screen">
   <mat-toolbar>
-    <span>Poker at work?</span>
+    <a [routerLink]="['/']">Poker at work?</a>
     <span class="flex-1"></span>
     <button
       *ngIf="authUser$ | async; else login"

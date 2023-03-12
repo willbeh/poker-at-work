@@ -14,7 +14,6 @@ export class AuthService {
 
   user$ = authState(this.auth).pipe(
     tap((user) => {
-      console.log('user', user);
       if (!user) {
         signInAnonymously(this.auth);
       }

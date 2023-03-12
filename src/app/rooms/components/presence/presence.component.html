@@ -1,1 +1,8 @@
-<p>presence works!</p>
+<div *ngIf="people$ | async as people">
+  <div *ngFor="let presence of people">
+    <div>{{ presence.name }}</div>
+    <ng-container
+      *ngTemplateOutlet="templateOutlet; context: { $implicit: presence }"
+    ></ng-container>
+  </div>
+</div>

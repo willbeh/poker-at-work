@@ -1,6 +1,8 @@
-<p>room works!</p>
 <div *ngIf="vm$ | async as vm">
-  <div>
-    {{ vm.user.displayName }}
-  </div>
+  <app-presence [roomId]="vm.room.id!">
+    <ng-template let-presence>
+      <h4>{{ presence.uid }}</h4>
+    </ng-template>
+  </app-presence>
+  <app-option-selection [options]="vm.room.options"/>
 </div>

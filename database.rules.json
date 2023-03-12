@@ -11,6 +11,18 @@
           }
         }
       }
+    },
+    "presence": {
+      ".read": true,
+      "$pid": {
+        ".write": "!data.exists() || (auth !== null && data.child('uid').val() === auth.uid)"
+      }
+    },
+    "stories": {
+      "$story": {
+        ".write": "!data.exists() || auth !== null",
+        ".read": true
+      }
     }
   }
 }
