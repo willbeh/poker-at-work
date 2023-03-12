@@ -13,6 +13,11 @@
           </ng-container>      
         </ng-template>
       </app-presence>
+      <div>
+        <button mat-raised-button color="primary" (click)="copyLink()">
+          <mat-icon>{{ copied ? 'done' : 'content_copy' }}</mat-icon> Copy link
+        </button>
+      </div>
     </div>
     <div class="col-span-3 p-4">
       <ng-container *ngIf="story$ | async as story">

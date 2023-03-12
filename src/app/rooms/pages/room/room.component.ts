@@ -17,8 +17,10 @@ import { OptionSelectionComponent } from '../../components/option-selection/opti
 import { MatIconModule } from '@angular/material/icon';
 import { ProfilePipe } from 'src/app/shared/pipes/profile.pipe';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Story } from '../../models/story';
 import { StoryListComponent } from '../../components/story-list/story-list.component';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-room',
@@ -28,6 +30,7 @@ import { StoryListComponent } from '../../components/story-list/story-list.compo
     RouterModule,
     MatIconModule,
     MatButtonModule,
+    MatSnackBarModule,
     ProfilePipe,
     PresenceComponent,
     OptionSelectionComponent,
@@ -40,8 +43,11 @@ export class RoomComponent {
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   private roomService = inject(RoomService);
+  private clipboard = inject(Clipboard);
+  private snackBar = inject(MatSnackBar);
 
   focusRefresh = new BehaviorSubject<number>(0);
+  copied = false;
 
   room$ = this.route.params.pipe(
     switchMap((params) => this.roomService.getRoom(params['id'])),
@@ -110,5 +116,17 @@ export class RoomComponent {
 
   manualComplete(story: Story) {
     this.roomService.processStory(story);
+  }
+
+  copyLink() {
+    this.copied = true;
+    this.clipboard.copy(window.location.href);
+    this.snackBar.open('Link copied to clipboard', 'Close', {
+      duration: 2000,
+    });
+
+    setTimeout(() => {
+      this.copied = false;
+    }, 2000);
   }
 }
