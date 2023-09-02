@@ -1,3 +1,4 @@
+<h2 class="text-xl font-bold mb-2">Presence</h2>
 <div *ngIf="people$ | async as people">
   <div *ngFor="let presence of people" class="flex gap-2 mb-2">
     <div>{{ presence.name }}</div>

@@ -1,6 +1,11 @@
 <div *ngIf="vm$ | async as vm">
-  <h1>Room {{ vm.room.name }}</h1>
-  <div class="grid grid-cols-4">
+  <h1 class="flex items-center h-full px-4" matTooltip="Copy link">
+    Room {{ vm.room.name }}
+    <button mat-icon-button (click)="copyLink()">
+      <mat-icon>{{ copied ? 'done' : 'link' }}</mat-icon>
+    </button>
+  </h1>
+  <div class="grid md:grid-cols-4">
     <div class="p-4">
       <app-presence [roomId]="vm.room.id!">
         <ng-template let-presence>
@@ -13,20 +18,15 @@
           </ng-container>      
         </ng-template>
       </app-presence>
-      <div>
-        <button mat-raised-button color="primary" (click)="copyLink()">
-          <mat-icon>{{ copied ? 'done' : 'content_copy' }}</mat-icon> Copy link
-        </button>
-      </div>
     </div>
-    <div class="col-span-3 p-4">
+    <div class="p-4 md:col-span-3">
       <ng-container *ngIf="story$ | async as story">
         <ng-container *ngIf="story.status === 'active'; else completed">
           <app-option-selection [options]="vm.room.options" (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)"/>
 
           <ng-container *ngIf="vm.room.owner === vm.user.uid">
             <button mat-raised-button color="primary" (click)="manualComplete(story)" class="mt-4" [disabled]="!story.votes">
-              Manual Complete
+              Manual Complete Vote
             </button>
           </ng-container>
         </ng-container>
@@ -34,7 +34,7 @@
         <ng-template #completed>
           <div class="text-2xl mb-4">Average: <span class="font-bold">{{ story.average }}</span></div>
           <div *ngFor="let vote of story.votes | keyvalue" class="mb-4">
-            <div class="text-xl">
+            <div>
               {{ ((vote.key | profile) | async)?.name }}: <span>{{ vote.value === -1 ? '?': vote.value }}</span>
             </div>
           </div>

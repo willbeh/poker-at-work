@@ -1,3 +1,4 @@
+<h2 class="text-xl font-bold mb-2">Average voted story points</h2>
 <div *ngIf="stories$ | async as stories">
   <div *ngFor="let story of stories">
     <div *ngIf="story.status === 'completed'" class="flex">

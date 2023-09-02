@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RoomService } from '../../services/room.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { BehaviorSubject, EMPTY, combineLatest, forkJoin } from 'rxjs';
+import { BehaviorSubject, EMPTY, combineLatest } from 'rxjs';
 import {
   debounceTime,
   map,
@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProfilePipe } from 'src/app/shared/pipes/profile.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Story } from '../../models/story';
 import { StoryListComponent } from '../../components/story-list/story-list.component';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -31,6 +32,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
     MatIconModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatTooltipModule,
     ProfilePipe,
     PresenceComponent,
     OptionSelectionComponent,
