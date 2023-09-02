@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Story } from '../../models/story';
 import { StoryListComponent } from '../../components/story-list/story-list.component';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.component';
 
 @Component({
   selector: 'app-room',
@@ -37,6 +38,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
     PresenceComponent,
     OptionSelectionComponent,
     StoryListComponent,
+    ConfettiComponent,
   ],
   templateUrl: './room.component.html',
   styles: [],
@@ -68,7 +70,19 @@ export class RoomComponent {
       if (!storyId) {
         return EMPTY;
       }
-      return this.roomService.getStory(storyId);
+
+      return this.roomService.getStory(storyId).pipe(
+        map((story) => {
+          const sameVoteResults = story.status !== 'active' && story.votes ?
+            Object.values(story.votes).every((val, i, arr) => val === arr[0]) : 
+            false;
+
+          return {
+            ...story,
+            sameVoteResults
+          }
+        })
+      );
     }),
     shareReplay(1)
   );
@@ -80,7 +94,6 @@ export class RoomComponent {
       const notVoted = presence.filter(
         (p) => story.votes?.[p.uid] === undefined
       );
-      console.log('notVoted', notVoted);
 
       if (notVoted.length === 0) {
         this.roomService.processStory(story);

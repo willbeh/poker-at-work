@@ -40,8 +40,9 @@
           </div>
 
           <button mat-raised-button color="primary" (click)="newStory(vm.room.id!)">New Story</button>
-          
         </ng-template>
+
+        <app-confetti [load]="story.sameVoteResults" />
       </ng-container>
 
       <ng-container *ngIf="vm.room.owner === vm.user.uid">
@@ -53,5 +54,5 @@
       </div>
     </div>
   </div>
-  
+
 </div>
