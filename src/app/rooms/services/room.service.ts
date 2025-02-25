@@ -28,7 +28,7 @@ export class RoomService {
     const room = push(this.colRef, {
       name: new Date().toISOString(),
       owner: uid,
-      options: [1, 2, 3, 5, 8, 13, 20, 40],
+      options: [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 40],
     });
 
     this.createStory(room.key!);

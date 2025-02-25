@@ -20,7 +20,6 @@ export class HomeComponent {
 
   createNewRoom(uid: string) {
     this.roomService.createRoom(uid).then((room) => {
-      console.log('Room created', room.key);
       this.router.navigate(['/room', room.key]);
     });
   }

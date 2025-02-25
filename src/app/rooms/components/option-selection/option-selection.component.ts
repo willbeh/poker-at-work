@@ -14,7 +14,6 @@ export class OptionSelectionComponent {
   selectedOption?: number;
 
   select(option: number) {
-    console.log('select', option);
     this.selectedOption = option;
     this.selected.emit(option);
   }

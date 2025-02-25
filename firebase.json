@@ -1,7 +1,7 @@
 {
   "hosting": {
     "target": "poker-at-work",
-    "public": "dist/poker-at-work",
+    "public": "dist/poker-at-work/browser",
     "ignore": [
       "**/.*"
     ],
