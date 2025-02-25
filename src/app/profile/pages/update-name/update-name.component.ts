@@ -15,18 +15,17 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from '@angular/fire/auth';
 
 @Component({
-  selector: 'app-update-name',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './update-name.component.html',
-  styles: [],
+    selector: 'app-update-name',
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './update-name.component.html',
+    styles: []
 })
 export class UpdateNameComponent {
   private router = inject(Router);

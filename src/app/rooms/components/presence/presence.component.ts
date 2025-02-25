@@ -14,11 +14,10 @@ import { Observable, tap } from 'rxjs';
 import { Presence } from '../../models/presence';
 
 @Component({
-  selector: 'app-presence',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './presence.component.html',
-  styles: [],
+    selector: 'app-presence',
+    imports: [CommonModule],
+    templateUrl: './presence.component.html',
+    styles: []
 })
 export class PresenceComponent implements OnInit {
   private roomService = inject(RoomService);

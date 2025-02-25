@@ -5,12 +5,10 @@ import { Container, Engine } from 'tsparticles-engine';
 import { confetti } from 'tsparticles-confetti';
 
 @Component({
-  selector: 'app-confetti',
-  standalone: true,
-  imports: [CommonModule, NgParticlesModule,],
-  templateUrl: './confetti.component.html',
-  styles: [
-  ]
+    selector: 'app-confetti',
+    imports: [CommonModule, NgParticlesModule,],
+    templateUrl: './confetti.component.html',
+    styles: []
 })
 export class ConfettiComponent implements OnChanges {
   @Input({required: true}) load = false;

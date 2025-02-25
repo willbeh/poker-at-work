@@ -25,23 +25,22 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.component';
 
 @Component({
-  selector: 'app-room',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatTooltipModule,
-    ProfilePipe,
-    PresenceComponent,
-    OptionSelectionComponent,
-    StoryListComponent,
-    ConfettiComponent,
-  ],
-  templateUrl: './room.component.html',
-  styles: [],
+    selector: 'app-room',
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatIconModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatTooltipModule,
+        ProfilePipe,
+        PresenceComponent,
+        OptionSelectionComponent,
+        StoryListComponent,
+        ConfettiComponent,
+    ],
+    templateUrl: './room.component.html',
+    styles: []
 })
 export class RoomComponent {
   private authService = inject(AuthService);

@@ -5,11 +5,10 @@ import {Router, RouterModule} from "@angular/router";
 import {MatButton} from "@angular/material/button";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, RouterModule, MatButton],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    imports: [CommonModule, RouterModule, MatButton],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   private auth = inject(Auth);

@@ -6,11 +6,10 @@ import { AuthService } from '../shared/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, MatButtonModule, RouterModule],
-  templateUrl: './home.component.html',
-  styles: [],
+    selector: 'app-home',
+    imports: [CommonModule, MatButtonModule, RouterModule],
+    templateUrl: './home.component.html',
+    styles: []
 })
 export class HomeComponent {
   private roomService = inject(RoomService);
