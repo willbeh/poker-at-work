@@ -1,42 +1,25 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GoogleAuthProvider, Auth } from '@angular/fire/auth'
-import * as firebaseui from "firebaseui";
-import {RouterModule} from "@angular/router";
+import { GoogleAuthProvider, Auth, signInWithPopup } from '@angular/fire/auth'
+import {Router, RouterModule} from "@angular/router";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatButton],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy{
-  private auth = inject(Auth)
-  // FirebaseUI config.
-  uiConfig = {
-    signInSuccessUrl: '/',
-    signInOptions: [
-      // Leave the lines as is for the providers you want to offer your users.
-     GoogleAuthProvider.PROVIDER_ID,
-    ],
-    // tosUrl and privacyPolicyUrl accept either url string or a callback
-    // function.
-    // Terms of service url/callback.
-    tosUrl: '/',
-    // Privacy policy url/callback.
-    privacyPolicyUrl: function() {
-      window.location.assign('/');
+export class LoginComponent {
+  private auth = inject(Auth);
+  private router = inject(Router);
+
+  async loginWithGoogle() {
+    const user = await signInWithPopup(this.auth, new GoogleAuthProvider());
+
+    if(user) {
+      this.router.navigate(['/']);
     }
-  };
-
-  ui = new firebaseui.auth.AuthUI(this.auth);
-
-  ngOnInit(): void {
-    this.ui.start('#firebaseui-auth-container', this.uiConfig)
-  }
-
-  ngOnDestroy(): void {
-    this.ui.delete().then();
   }
 }
