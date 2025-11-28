@@ -1,18 +1,25 @@
 <h2 class="text-xl font-bold mb-4 text-gray-800">Average voted story points</h2>
-<div *ngIf="stories$ | async as stories" class="space-y-4">
-  <div *ngIf="stories.length === 0" class="text-gray-500 italic p-4 bg-gray-50 rounded-lg border border-gray-200">
-    No voting results yet.
-  </div>
-
-  <div *ngFor="let story of stories">
-    <div *ngIf="story.status === 'completed'" class="bg-white shadow-sm rounded-lg border border-gray-200 p-4">
-      <div class="flex justify-between items-center mb-2">
-        <div class="flex items-center">
-          <span class="text-gray-600 mr-2">Average:</span>
-          <span class="text-lg font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{{ story.average }}</span>
-        </div>
-        <span class="text-sm text-gray-500">{{ story.date | date : "medium" }}</span>
+@if (stories$ | async; as stories) {
+  <div class="space-y-4">
+    @if (stories.length === 0) {
+      <div class="text-gray-500 italic p-4 bg-gray-50 rounded-lg border border-gray-200">
+        No voting results yet.
       </div>
-    </div>
+    }
+    @for (story of stories; track story) {
+      <div>
+        @if (story.status === 'completed') {
+          <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4">
+            <div class="flex justify-between items-center mb-2">
+              <div class="flex items-center">
+                <span class="text-gray-600 mr-2">Average:</span>
+                <span class="text-lg font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{{ story.average }}</span>
+              </div>
+              <span class="text-sm text-gray-500">{{ story.date | date : "medium" }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    }
   </div>
-</div>
+}

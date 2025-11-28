@@ -1,12 +1,16 @@
 <h2 class="text-xl font-bold mb-4 text-gray-800">Presence</h2>
-<div *ngIf="people$ | async as people" class="flex flex-col gap-2">
-  <div *ngFor="let presence of people"
-    class="bg-white shadow-sm rounded-lg border border-gray-200 p-3 flex items-center justify-between gap-3">
-    <div class="font-medium text-gray-700 truncate flex-1 min-w-0" title="{{ presence.name }}">
-      {{ presence.name }}
-    </div>
-    <div class="shrink-0">
-      <ng-container *ngTemplateOutlet="templateOutlet; context: { $implicit: presence }"></ng-container>
-    </div>
+@if (people$ | async; as people) {
+  <div class="flex flex-col gap-2">
+    @for (presence of people; track presence) {
+      <div
+        class="bg-white shadow-sm rounded-lg border border-gray-200 p-3 flex items-center justify-between gap-3">
+        <div class="font-medium text-gray-700 truncate flex-1 min-w-0" title="{{ presence.name }}">
+          {{ presence.name }}
+        </div>
+        <div class="shrink-0">
+          <ng-container *ngTemplateOutlet="templateOutlet; context: { $implicit: presence }"></ng-container>
+        </div>
+      </div>
+    }
   </div>
-</div>
+}

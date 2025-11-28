@@ -4,19 +4,19 @@
       <mat-icon>home</mat-icon>Poker at work?
     </a>
     <span class="flex-1"></span>
-    <button
-      *ngIf="authUser$ | async; else login"
-      mat-icon-button
-      aria-label="profile"
-    >
-      <mat-icon>person</mat-icon>
-    </button>
-
-    <ng-template #login>
+    @if (authUser$ | async) {
+      <button
+        mat-icon-button
+        aria-label="profile"
+        >
+        <mat-icon>person</mat-icon>
+      </button>
+    } @else {
       <a mat-button aria-label="Login" [routerLink]="['/login']">
         <mat-icon>login</mat-icon> Login
       </a>
-    </ng-template>
+    }
+
   </mat-toolbar>
   <router-outlet></router-outlet>
 </div>

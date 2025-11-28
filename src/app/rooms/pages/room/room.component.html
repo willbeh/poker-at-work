@@ -1,58 +1,55 @@
-<div *ngIf="vm$ | async as vm">
-  <h1 class="flex items-center h-full px-4" matTooltip="Copy link">
-    Room {{ vm.room.name }}
-    <button mat-icon-button (click)="copyLink()">
-      <mat-icon>{{ copied ? 'done' : 'link' }}</mat-icon>
-    </button>
-  </h1>
-  <div class="grid md:grid-cols-4">
-    <div class="p-4">
-      <app-presence [roomId]="vm.room.id!">
-        <ng-template let-presence>
-          <ng-container *ngIf="story$ | async as story">
-            <mat-icon *ngIf="story.votes?.[presence.uid]; else notVoted" class="text-green-600">check_circle</mat-icon>
-    
-            <ng-template #notVoted>
-              <mat-icon class="text-gray-400">help</mat-icon>
-            </ng-template>
-          </ng-container>      
-        </ng-template>
-      </app-presence>
-    </div>
-    <div class="p-4 md:col-span-3">
-      <ng-container *ngIf="story$ | async as story">
-        <ng-container *ngIf="story.status === 'active'; else completed">
-          <app-option-selection [options]="vm.room.options" (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)"/>
-
-          <ng-container *ngIf="vm.room.owner === vm.user.uid">
-            <button mat-raised-button color="primary" (click)="manualComplete(story)" class="mt-4" [disabled]="!story.votes">
-              Manual Complete Vote
-            </button>
-          </ng-container>
-        </ng-container>
-
-        <ng-template #completed>
-          <div class="text-2xl mb-4">Average: <span class="font-bold">{{ story.average }}</span></div>
-          <div *ngFor="let vote of story.votes | keyvalue" class="mb-4">
-            <div>
-              {{ ((vote.key | profile) | async)?.name }}: <span>{{ vote.value === -1 ? '?': vote.value }}</span>
-            </div>
-          </div>
-
-          <button mat-raised-button color="primary" (click)="newStory(vm.room.id!)">New Story</button>
-        </ng-template>
-
-        <app-confetti [load]="story.sameVoteResults" />
-      </ng-container>
-
-      <ng-container *ngIf="vm.room.owner === vm.user.uid">
-        <ng-container *ngIf="updater$ | async"></ng-container>
-      </ng-container>
-
-      <div class="mt-8">
-        <app-story-list [roomId]="vm.room.id!"/>
+@if (vm$ | async; as vm) {
+  <div>
+    <h1 class="flex items-center h-full px-4" matTooltip="Copy link">
+      Room {{ vm.room.name }}
+      <button mat-icon-button (click)="copyLink()">
+        <mat-icon>{{ copied ? 'done' : 'link' }}</mat-icon>
+      </button>
+    </h1>
+    <div class="grid md:grid-cols-4">
+      <div class="p-4">
+        <app-presence [roomId]="vm.room.id!">
+          <ng-template let-presence>
+            @if (story$ | async; as story) {
+              @if (story.votes?.[presence.uid]) {
+                <mat-icon class="text-green-600">check_circle</mat-icon>
+              } @else {
+                <mat-icon class="text-gray-400">help</mat-icon>
+              }
+            }
+          </ng-template>
+        </app-presence>
+      </div>
+      <div class="p-4 md:col-span-3">
+        @if (story$ | async; as story) {
+          @if (story.status === 'active') {
+            <app-option-selection [options]="vm.room.options" (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)"/>
+            @if (vm.room.owner === vm.user.uid) {
+              <button mat-raised-button color="primary" (click)="manualComplete(story)" class="mt-4" [disabled]="!story.votes">
+                Manual Complete Vote
+              </button>
+            }
+          } @else {
+            <div class="text-2xl mb-4">Average: <span class="font-bold">{{ story.average }}</span></div>
+            @for (vote of story.votes | keyvalue; track vote) {
+              <div class="mb-4">
+                <div>
+                  {{ ((vote.key | profile) | async)?.name }}: <span>{{ vote.value === -1 ? '?': vote.value }}</span>
+                </div>
+              </div>
+            }
+            <button mat-raised-button color="primary" (click)="newStory(vm.room.id!)">New Story</button>
+          }
+          <app-confetti [load]="story.sameVoteResults" />
+        }
+        @if (vm.room.owner === vm.user.uid) {
+          @if (updater$ | async) {
+          }
+        }
+        <div class="mt-8">
+          <app-story-list [roomId]="vm.room.id!"/>
+        </div>
       </div>
     </div>
   </div>
-
-</div>
+}

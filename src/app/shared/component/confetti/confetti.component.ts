@@ -1,12 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NgParticlesModule } from 'ng-particles';
 import { Container, Engine } from 'tsparticles-engine';
 import { confetti } from 'tsparticles-confetti';
 
 @Component({
     selector: 'app-confetti',
-    imports: [CommonModule, NgParticlesModule,],
+    imports: [NgParticlesModule],
     templateUrl: './confetti.component.html',
     styles: []
 })

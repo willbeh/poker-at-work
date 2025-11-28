@@ -1,5 +1,5 @@
 <div class="flex flex-col mt-20 justify-center items-center">
-  <ng-container *ngIf="vm$ | async as vm">
+  @if (vm$ | async; as vm) {
     <form [formGroup]="formGroup">
       <mat-form-field class="w-full" [appearance]="'outline'">
         <mat-label>Name</mat-label>
@@ -10,9 +10,9 @@
         color="primary"
         (click)="updateName(vm.user, vm.path)"
         [disabled]="formGroup.invalid"
-      >
+        >
         Submit
       </button>
     </form>
-  </ng-container>
+  }
 </div>
