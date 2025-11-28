@@ -4,4 +4,5 @@ export interface Room {
   owner: string;
   storyId: string;
   options: number[];
+  allowUnsure?: boolean;
 }

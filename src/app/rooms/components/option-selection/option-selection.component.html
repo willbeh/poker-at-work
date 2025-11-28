@@ -1,22 +1,18 @@
 <div class="w-96 grid grid-cols-3 gap-y-4">
   @for (option of options; track option) {
-    <div>
-      <button
-        class="h-20 w-16 border-2 border-block rounded-lg"
-        [ngClass]="[option === selectedOption ? 'bg-blue-400' : 'bg-white']"
-        (click)="select(option)"
-        >
-        {{ option }}
-      </button>
-    </div>
-  }
   <div>
-    <button
-      class="h-20 w-16 border-2 border-block rounded-lg"
-      [ngClass]="[selectedOption === -1 ? 'bg-blue-400' : 'bg-white']"
-      (click)="select(-1)"
-      >
+    <button class="h-20 w-16 border-2 border-block rounded-lg"
+      [ngClass]="[option === selectedOption ? 'bg-blue-400' : 'bg-white']" (click)="select(option)">
+      {{ option }}
+    </button>
+  </div>
+  }
+  @if (allowUnsure) {
+  <div>
+    <button class="h-20 w-16 border-2 border-block rounded-lg"
+      [ngClass]="[selectedOption === -1 ? 'bg-blue-400' : 'bg-white']" (click)="select(-1)">
       ?
     </button>
   </div>
+  }
 </div>

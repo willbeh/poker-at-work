@@ -19,6 +19,8 @@ import { ProfilePipe } from 'src/app/shared/pipes/profile.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { Story } from '../../models/story';
 import { StoryListComponent } from '../../components/story-list/story-list.component';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -32,7 +34,9 @@ import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.co
     MatIconModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatSnackBarModule,
     MatTooltipModule,
+    MatDialogModule,
     ProfilePipe,
     PresenceComponent,
     OptionSelectionComponent,
@@ -48,6 +52,7 @@ export class RoomComponent {
   private roomService = inject(RoomService);
   private clipboard = inject(Clipboard);
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
   focusRefresh = new BehaviorSubject<number>(0);
   copied = false;
@@ -142,5 +147,18 @@ export class RoomComponent {
     setTimeout(() => {
       this.copied = false;
     }, 2000);
+  }
+
+  openSettings(room: any) {
+    const dialogRef = this.dialog.open(SettingsDialogComponent, {
+      data: room,
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.roomService.updateRoom(room.id, result);
+      }
+    });
   }
 }

@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 })
 export class OptionSelectionComponent {
   @Input() options: number[] = [];
+  @Input() allowUnsure: boolean = true;
   @Output() selected = new EventEmitter<number | null>();
 
   selectedOption?: number;
