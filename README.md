@@ -1,27 +1,128 @@
-# PokerAtWork
+# Poker at Work 🎴
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.1.
+A real-time planning poker application for agile teams to estimate story points collaboratively. Built with Angular and Firebase, this app enables distributed teams to conduct efficient estimation sessions with a modern, polished UI.
 
-## Development server
+## ✨ Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Real-time Collaboration**: Live updates as team members join and vote
+- **Customizable Voting Options**: Configure your own estimation scales (Fibonacci, T-shirt sizes, etc.)
+- **Room Management**: Create and manage multiple estimation rooms
+- **User Presence**: See who's in the room with avatar indicators
+- **Vote Reveal**: Simultaneous reveal of all votes for unbiased estimation
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Firebase Integration**: Real-time database and authentication
+- **Modern UI**: Polished interface with smooth animations and glassmorphism effects
 
-## Code scaffolding
+## 🚀 Live Demo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The application is deployed at: [https://poker-at-work.web.app](https://poker-at-work.web.app)
 
-## Build
+## 🛠️ Tech Stack
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Framework**: Angular 20.x
+- **UI Components**: Angular Material
+- **Styling**: SCSS with Tailwind CSS
+- **Backend**: Firebase Realtime Database
+- **Authentication**: Firebase Auth
+- **Hosting**: Firebase Hosting
+- **Effects**: tsparticles-confetti for celebrations
 
-## Running unit tests
+## 📋 Prerequisites
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Node.js (v18 or higher recommended)
+- npm or yarn
+- Angular CLI (`npm install -g @angular/cli`)
 
-## Running end-to-end tests
+## 🏃 Getting Started
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Installation
 
-## Further help
+```bash
+# Clone the repository
+git clone <repository-url>
+cd poker-at-work
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Install dependencies
+npm install
+```
+
+### Development Server
+
+```bash
+# Start the development server
+npm start
+# or
+ng serve
+```
+
+Navigate to `http://localhost:4200/`. The application will automatically reload when you make changes to the source files.
+
+### Build
+
+```bash
+# Build for production
+npm run build
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+## 🔥 Firebase Configuration
+
+This project uses Firebase for real-time database and authentication. To set up your own Firebase project:
+
+1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+2. Enable Firebase Realtime Database
+3. Enable Authentication (Email/Password or other providers)
+4. Add your Firebase configuration to the environment files
+5. Update `firebase.json` and `.firebaserc` with your project details
+
+### Deploy to Firebase
+
+```bash
+# Build and deploy
+ng build --configuration production
+firebase deploy
+```
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── home/              # Landing page
+│   ├── login/             # Authentication
+│   ├── profile/           # User profile management
+│   ├── rooms/             # Planning poker rooms
+│   │   ├── components/    # Room UI components
+│   │   ├── models/        # Room data models
+│   │   ├── pages/         # Room pages
+│   │   └── services/      # Room services
+│   └── shared/            # Shared components and services
+├── styles.scss            # Global styles
+└── environments/          # Environment configurations
+```
+
+## 🧪 Testing
+
+```bash
+# Run unit tests
+npm test
+```
+
+Tests are executed via [Karma](https://karma-runner.github.io).
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For questions or issues, please open an issue in the repository.
+
+---
+
+Built with ❤️ using Angular and Firebase
