@@ -60,7 +60,7 @@ export class RoomService {
     return update(ref(this.db, `stories/${storyId}`), data);
   }
 
-  updateStoryVote(storyId: string, uid: string, vote: number) {
+  updateStoryVote(storyId: string, uid: string, vote: number | null) {
     return set(ref(this.db, `stories/${storyId}/votes/${uid}`), vote);
   }
 

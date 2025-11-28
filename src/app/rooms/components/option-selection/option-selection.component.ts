@@ -2,19 +2,24 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-option-selection',
-    imports: [CommonModule],
-    templateUrl: './option-selection.component.html',
-    styles: []
+  selector: 'app-option-selection',
+  imports: [CommonModule],
+  templateUrl: './option-selection.component.html',
+  styles: []
 })
 export class OptionSelectionComponent {
   @Input() options: number[] = [];
-  @Output() selected = new EventEmitter<number>();
+  @Output() selected = new EventEmitter<number | null>();
 
   selectedOption?: number;
 
   select(option: number) {
-    this.selectedOption = option;
-    this.selected.emit(option);
+    if (this.selectedOption === option) {
+      this.selectedOption = undefined;
+      this.selected.emit(null);
+    } else {
+      this.selectedOption = option;
+      this.selected.emit(option);
+    }
   }
 }

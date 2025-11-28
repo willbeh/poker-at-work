@@ -25,22 +25,22 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.component';
 
 @Component({
-    selector: 'app-room',
-    imports: [
-        CommonModule,
-        RouterModule,
-        MatIconModule,
-        MatButtonModule,
-        MatSnackBarModule,
-        MatTooltipModule,
-        ProfilePipe,
-        PresenceComponent,
-        OptionSelectionComponent,
-        StoryListComponent,
-        ConfettiComponent,
-    ],
-    templateUrl: './room.component.html',
-    styles: []
+  selector: 'app-room',
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    ProfilePipe,
+    PresenceComponent,
+    OptionSelectionComponent,
+    StoryListComponent,
+    ConfettiComponent,
+  ],
+  templateUrl: './room.component.html',
+  styles: []
 })
 export class RoomComponent {
   private authService = inject(AuthService);
@@ -73,7 +73,7 @@ export class RoomComponent {
       return this.roomService.getStory(storyId).pipe(
         map((story) => {
           const sameVoteResults = story.status !== 'active' && story.votes ?
-            Object.values(story.votes).every((val, i, arr) => val === arr[0]) : 
+            Object.values(story.votes).every((val, i, arr) => val === arr[0]) :
             false;
 
           return {
@@ -120,7 +120,7 @@ export class RoomComponent {
     })
   );
 
-  updateStoryVote(storyId: string, uid: string, vote: number) {
+  updateStoryVote(storyId: string, uid: string, vote: number | null) {
     this.roomService.updateStoryVote(storyId, uid, vote);
   }
 
