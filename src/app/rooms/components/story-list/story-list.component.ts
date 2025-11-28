@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 import { Story } from '../../models/story';
 
 @Component({
-    selector: 'app-story-list',
-    imports: [CommonModule],
-    templateUrl: './story-list.component.html',
-    styles: []
+  selector: 'app-story-list',
+  imports: [CommonModule],
+  templateUrl: './story-list.component.html',
+  styles: []
 })
 export class StoryListComponent implements OnInit {
   private roomService = inject(RoomService);
