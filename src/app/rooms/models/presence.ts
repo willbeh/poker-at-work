@@ -3,4 +3,5 @@ export interface Presence {
   state: 'online' | 'offline';
   last_changed: number;
   name: string;
+  isViewer?: boolean;
 }

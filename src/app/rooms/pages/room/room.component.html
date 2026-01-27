@@ -13,10 +13,13 @@
   </h1>
   <div class="grid md:grid-cols-4">
     <div class="p-4">
-      <app-presence [roomId]="vm.room.id!">
+      <app-presence [roomId]="vm.room.id!" [currentUserId]="vm.user.uid"
+        (toggleViewer)="toggleViewerStatus($event.uid, $event.isViewer)">
         <ng-template let-presence>
           @if (story$ | async; as story) {
-          @if (story.votes?.[presence.uid]) {
+          @if (presence.isViewer) {
+          <mat-icon class="text-blue-500" matTooltip="Viewer (not voting)">visibility</mat-icon>
+          } @else if (story.votes?.[presence.uid]) {
           <mat-icon class="text-green-600">check_circle</mat-icon>
           } @else {
           <mat-icon class="text-gray-400">help</mat-icon>
@@ -28,8 +31,15 @@
     <div class="p-4 md:col-span-3">
       @if (story$ | async; as story) {
       @if (story.status === 'active') {
+      @if (isCurrentUserViewer$ | async) {
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+        <p class="text-blue-700 font-medium">You are viewing this session</p>
+        <p class="text-blue-600 text-sm">You can watch but cannot vote</p>
+      </div>
+      } @else {
       <app-option-selection [options]="vm.room.options" [allowUnsure]="vm.room.allowUnsure ?? true"
         (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)" />
+      }
       @if (vm.room.owner === vm.user.uid) {
       <button mat-raised-button color="primary" (click)="manualComplete(story)" class="mt-4" [disabled]="!story.votes">
         Manual Complete Vote

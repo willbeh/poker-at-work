@@ -95,14 +95,24 @@ export class RoomComponent {
     debounceTime(1000),
     shareReplay(1),
     tap(([presence, story]) => {
-      const notVoted = presence.filter(
+      const voters = presence.filter((p) => !p.isViewer);
+      const notVoted = voters.filter(
         (p) => story.votes?.[p.uid] === undefined
       );
 
-      if (notVoted.length === 0) {
+      if (notVoted.length === 0 && voters.length > 0) {
         this.roomService.processStory(story);
       }
     })
+  );
+
+  isCurrentUserViewer$ = combineLatest([this.presence$, this.authService.user$]).pipe(
+    map(([presence, user]) => {
+      if (!user) return false;
+      const currentUser = presence.find((p) => p.uid === user.uid);
+      return currentUser?.isViewer ?? false;
+    }),
+    shareReplay(1)
   );
 
   /// TODO send selected vote to option selection component
@@ -135,6 +145,10 @@ export class RoomComponent {
 
   manualComplete(story: Story) {
     this.roomService.processStory(story);
+  }
+
+  toggleViewerStatus(uid: string, currentStatus: boolean) {
+    this.roomService.toggleViewerStatus(uid, !currentStatus);
   }
 
   copyLink() {

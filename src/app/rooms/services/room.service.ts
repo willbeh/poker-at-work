@@ -112,6 +112,10 @@ export class RoomService {
     );
   }
 
+  toggleViewerStatus(uid: string, isViewer: boolean) {
+    return update(ref(this.db, `presence/${uid}`), { isViewer });
+  }
+
   presence(roomId: string, user: User) {
     const userStatusDatabaseRef = ref(this.db, `presence/${user.uid}`);
     const isOfflineForDatabase = {
@@ -139,9 +143,9 @@ export class RoomService {
       }
 
       onDisconnect(userStatusDatabaseRef)
-        .set(isOfflineForDatabase)
+        .update(isOfflineForDatabase)
         .then(() => {
-          set(userStatusDatabaseRef, isOnlineForDatabase);
+          update(userStatusDatabaseRef, isOnlineForDatabase);
         });
     });
   }
