@@ -28,6 +28,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.component';
 import { CelebrationCardsComponent } from '../../components/celebration-cards/celebration-cards.component';
 
+import { TopbarComponent } from 'src/app/shared/component/topbar/topbar.component';
+
 @Component({
   selector: 'app-room',
   imports: [
@@ -44,6 +46,7 @@ import { CelebrationCardsComponent } from '../../components/celebration-cards/ce
     StoryListComponent,
     ConfettiComponent,
     CelebrationCardsComponent,
+    TopbarComponent,
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss',

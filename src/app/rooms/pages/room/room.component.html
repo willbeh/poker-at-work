@@ -1,13 +1,6 @@
 @if (vm$ | async; as vm) {
 <div class="app-shell">
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-tile">P</div>
-      <div>
-        <div class="brand-title">Poker at Work</div>
-      </div>
-    </div>
-
+  <app-topbar variant="room">
     <button class="room-pill" (click)="copyLink()" matTooltip="Copy room link">
       <span class="dot"></span>
       <span>copy room</span>
@@ -38,7 +31,7 @@
         </button>
       </mat-menu>
     </div>
-  </header>
+  </app-topbar>
 
   <div class="workspace">
     <aside class="panel">

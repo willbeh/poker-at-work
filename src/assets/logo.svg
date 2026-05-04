@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Poker at Work">
+  
+  <rect x="0" y="0" width="256" height="256" rx="56" ry="56" fill="#0e0e0c"></rect>
+
+  
+  <g transform="translate(128 132) rotate(-12)">
+    <rect x="-72" y="-100" width="144" height="200" rx="16" ry="16" fill="#c8eb4a"></rect>
+  </g>
+
+  
+  <g transform="translate(128 128) rotate(4)">
+    <rect x="-72" y="-100" width="144" height="200" rx="16" ry="16" fill="#f4f3ee"></rect>
+    <rect x="-66" y="-94" width="132" height="188" rx="12" ry="12" fill="none" stroke="#0e0e0c" stroke-width="1.25" stroke-opacity="0.3"></rect>
+
+    
+    <text x="-58" y="-68" font-family="Georgia, &#39;Times New Roman&#39;, serif" font-style="italic" font-size="22" font-weight="700" fill="#0e0e0c">P</text>
+    <circle cx="-49" cy="-50" r="3" fill="#0e0e0c"></circle>
+
+    
+    <g transform="translate(58 68) rotate(180)">
+      <text x="0" y="0" font-family="Georgia, &#39;Times New Roman&#39;, serif" font-style="italic" font-size="22" font-weight="700" fill="#0e0e0c">P</text>
+      <circle cx="9" cy="18" r="3" fill="#0e0e0c"></circle>
+    </g>
+
+    
+    <text x="-1" y="42" font-family="Georgia, &#39;Times New Roman&#39;, serif" font-style="italic" font-weight="700" font-size="120" fill="#0e0e0c" text-anchor="middle" dominant-baseline="alphabetic">P</text>
+  </g>
+</svg>
