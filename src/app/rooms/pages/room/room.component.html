@@ -87,7 +87,7 @@
         [allowUnsure]="vm.room.allowUnsure ?? true"
         (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)" />
       }
-      @if (vm.room.owner === vm.user.uid) {
+      @if (vm.room.owner === vm.user.uid || (vm.room.whoCanReveal === 'anyone' && !(isCurrentUserViewer$ | async))) {
       <button class="reveal-btn" (click)="manualComplete(story)" [disabled]="!story.votes">
         Reveal cards
         <span class="kbd">↵</span>
@@ -110,9 +110,6 @@
       <app-confetti [load]="story.sameVoteResults" />
       }
 
-      @if (vm.room.owner === vm.user.uid) {
-      @if (updater$ | async) {}
-      }
     </section>
 
     <aside class="right-col">

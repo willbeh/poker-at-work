@@ -9,7 +9,7 @@
     <div class="avatar" [ngStyle]="avatarStyle(presence.uid)">{{ initials(presence.name) }}</div>
     <div class="flex-1 min-w-0">
       <div class="font-semibold text-ink truncate text-sm">
-        @if (presence.uid === currentUserId) { You (you) } @else { {{ presence.name }} }
+        @if (presence.uid === currentUserId) { You } @else { {{ presence.name }} }
       </div>
       <div class="font-mono-label text-ink-muted mt-0.5">
         @if (presence.isViewer) { VIEWER }

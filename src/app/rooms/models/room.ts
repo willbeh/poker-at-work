@@ -5,4 +5,5 @@ export interface Room {
   storyId: string;
   options: number[];
   allowUnsure?: boolean;
+  whoCanReveal?: 'anyone' | 'hostOnly';
 }

@@ -29,6 +29,7 @@ export class RoomService {
       name: new Date().toISOString(),
       owner: uid,
       options: [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 40],
+      whoCanReveal: 'hostOnly',
     });
 
     this.createStory(room.key!);

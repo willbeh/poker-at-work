@@ -51,6 +51,10 @@ html, body {
   font-family: 'Inter', 'Roboto', ui-sans-serif, system-ui, sans-serif;
 }
 
+.settings-dialog-panel .mat-mdc-dialog-surface {
+  background: var(--bg) !important;
+}
+
 .font-mono-label {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   text-transform: uppercase;
