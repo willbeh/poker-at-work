@@ -1,0 +1,14 @@
+<div class="celebration-grid">
+  @for (option of allOptions; track option; let i = $index) {
+  <div
+    class="card-slot"
+    [class.loser]="animated && option !== winningValue"
+    [class.winner]="animated && option === winningValue">
+    <app-playing-card
+      [value]="option"
+      [index]="i"
+      [isSelected]="option === winningValue">
+    </app-playing-card>
+  </div>
+  }
+</div>

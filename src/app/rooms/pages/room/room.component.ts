@@ -26,6 +26,7 @@ import { Story } from '../../models/story';
 import { StoryListComponent } from '../../components/story-list/story-list.component';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.component';
+import { CelebrationCardsComponent } from '../../components/celebration-cards/celebration-cards.component';
 
 @Component({
   selector: 'app-room',
@@ -42,6 +43,7 @@ import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.co
     OptionSelectionComponent,
     StoryListComponent,
     ConfettiComponent,
+    CelebrationCardsComponent,
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss',
@@ -153,6 +155,10 @@ export class RoomComponent {
       };
     })
   );
+
+  winningVote(story: Story): number {
+    return story.votes ? +Object.values(story.votes)[0] : 0;
+  }
 
   updateStoryVote(storyId: string, uid: string, vote: number | null) {
     this.roomService.updateStoryVote(storyId, uid, vote);

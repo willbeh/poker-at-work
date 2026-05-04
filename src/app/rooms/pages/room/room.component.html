@@ -93,6 +93,18 @@
         <span class="kbd">↵</span>
       </button>
       }
+      } @else if (story.sameVoteResults) {
+      <h1 class="section-title">Perfect consensus!</h1>
+      <app-celebration-cards
+        [options]="vm.room.options"
+        [allowUnsure]="vm.room.allowUnsure ?? true"
+        [winningValue]="winningVote(story)" />
+      @if (vm.room.owner === vm.user.uid) {
+      <button class="reveal-btn" (click)="newStory(vm.room.id!)">
+        New round
+        <span class="kbd">R</span>
+      </button>
+      }
       } @else {
       <h1 class="section-title">Results</h1>
       <div class="average-panel">
