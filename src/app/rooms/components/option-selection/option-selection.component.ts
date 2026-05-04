@@ -5,7 +5,22 @@ import { CommonModule } from '@angular/common';
   selector: 'app-option-selection',
   imports: [CommonModule],
   templateUrl: './option-selection.component.html',
-  styles: []
+  styles: [`
+    .vote-card {
+      border-color: var(--border);
+      cursor: pointer;
+    }
+    .vote-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(14, 15, 12, 0.06);
+    }
+    .vote-card.is-selected {
+      border-color: var(--ink);
+      border-width: 2px;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(14, 15, 12, 0.12);
+    }
+  `]
 })
 export class OptionSelectionComponent {
   @Input() options: number[] = [];

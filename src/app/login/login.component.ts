@@ -2,11 +2,10 @@ import {Component, inject} from '@angular/core';
 
 import { GoogleAuthProvider, Auth, signInWithPopup } from '@angular/fire/auth'
 import {Router, RouterModule} from "@angular/router";
-import {MatButton} from "@angular/material/button";
 
 @Component({
     selector: 'app-login',
-    imports: [RouterModule, MatButton],
+    imports: [RouterModule],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })

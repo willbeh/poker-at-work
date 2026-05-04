@@ -1,12 +1,10 @@
 import {
   Component,
-  ContentChild,
   EventEmitter,
   inject,
   Input,
   OnInit,
   Output,
-  TemplateRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,22 +13,73 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RoomService } from '../../services/room.service';
 import { Observable, tap } from 'rxjs';
 import { Presence } from '../../models/presence';
+import { avatarColor, initials } from '../../../shared/utils/avatar';
 
 @Component({
   selector: 'app-presence',
   imports: [CommonModule, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './presence.component.html',
-  styles: []
+  styles: [`
+    .presence-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .presence-card.is-self {
+      border-color: var(--ink);
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: var(--ink-muted);
+      opacity: 0.4;
+    }
+    .status-dot.voted {
+      background: var(--accent);
+      opacity: 1;
+      box-shadow: 0 0 0 4px rgba(184, 224, 74, 0.2);
+    }
+    .vote-badge {
+      min-width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: var(--bg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 0 8px;
+    }
+  `]
 })
 export class PresenceComponent implements OnInit {
   private roomService = inject(RoomService);
 
   @Input() roomId: string = '';
   @Input() currentUserId: string = '';
+  @Input() votedUids: string[] = [];
+  @Input() votes: { [uid: string]: number } | undefined = undefined;
   @Output() numberPresence = new EventEmitter<number>();
   @Output() toggleViewer = new EventEmitter<{ uid: string; isViewer: boolean }>();
-
-  @ContentChild(TemplateRef) templateOutlet!: TemplateRef<unknown>;
 
   people$ = new Observable<Presence[]>();
   isCurrentUserViewer = false;
@@ -49,5 +98,25 @@ export class PresenceComponent implements OnInit {
 
   onToggleSelfViewer() {
     this.toggleViewer.emit({ uid: this.currentUserId, isViewer: this.isCurrentUserViewer });
+  }
+
+  initials(name?: string | null) {
+    return initials(name);
+  }
+
+  avatarStyle(uid?: string | null) {
+    const c = avatarColor(uid);
+    return { 'background-color': c.bg, color: c.fg };
+  }
+
+  hasVoted(uid: string) {
+    return this.votedUids.includes(uid);
+  }
+
+  voteDisplay(uid: string): string | null {
+    if (!this.votes) return null;
+    const v = this.votes[uid];
+    if (v === undefined || v === null) return null;
+    return v === -1 ? '?' : String(v);
   }
 }

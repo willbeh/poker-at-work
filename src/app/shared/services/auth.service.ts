@@ -3,6 +3,7 @@ import {
   Auth,
   authState,
   signInAnonymously,
+  signOut,
   updateProfile,
   User,
 } from '@angular/fire/auth';
@@ -38,6 +39,10 @@ export class AuthService {
       return null;
     })
   );
+
+  async signOut() {
+    await signOut(this.auth);
+  }
 
   async updateName(user: User, name: string) {
     await this.profileService.updateProfile(user.uid, { name });

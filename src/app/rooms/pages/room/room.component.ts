@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoomService } from '../../services/room.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { avatarColor, initials } from 'src/app/shared/utils/avatar';
 import { BehaviorSubject, EMPTY, combineLatest } from 'rxjs';
 import {
   debounceTime,
@@ -15,8 +16,8 @@ import {
 import { PresenceComponent } from '../../components/presence/presence.component';
 import { OptionSelectionComponent } from '../../components/option-selection/option-selection.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ProfilePipe } from 'src/app/shared/pipes/profile.pipe';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
@@ -34,22 +35,25 @@ import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.co
     MatIconModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatSnackBarModule,
     MatTooltipModule,
     MatDialogModule,
-    ProfilePipe,
+    MatMenuModule,
     PresenceComponent,
     OptionSelectionComponent,
     StoryListComponent,
     ConfettiComponent,
   ],
   templateUrl: './room.component.html',
-  styles: []
+  styleUrl: './room.component.scss',
 })
 export class RoomComponent {
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private roomService = inject(RoomService);
+
+  avatarColor = avatarColor;
+  initials = initials;
   private clipboard = inject(Clipboard);
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
@@ -91,6 +95,26 @@ export class RoomComponent {
     shareReplay(1)
   );
 
+  rounds$ = this.room$.pipe(
+    switchMap((room) => this.roomService.getStories(room.id!)),
+    shareReplay(1)
+  );
+
+  roundNumber$ = this.rounds$.pipe(map((stories) => stories.length || 1));
+
+  voteStats$ = combineLatest([this.presence$, this.story$]).pipe(
+    map(([presence, story]) => {
+      const voters = presence.filter((p) => !p.isViewer);
+      const voted = voters.filter((p) => story.votes?.[p.uid] !== undefined && story.votes?.[p.uid] !== null);
+      return {
+        voted: voted.length,
+        total: voters.length,
+        votedUids: Object.keys(story.votes ?? {}),
+      };
+    }),
+    shareReplay(1)
+  );
+
   updater$ = combineLatest(this.presence$, this.story$).pipe(
     debounceTime(1000),
     shareReplay(1),
@@ -114,8 +138,6 @@ export class RoomComponent {
     }),
     shareReplay(1)
   );
-
-  /// TODO send selected vote to option selection component
 
   vm$ = this.room$.pipe(
     withLatestFrom(this.authService.user$),
@@ -163,6 +185,11 @@ export class RoomComponent {
     }, 2000);
   }
 
+  async signOut() {
+    await this.authService.signOut();
+    this.router.navigate(['/login']);
+  }
+
   openSettings(room: any) {
     const dialogRef = this.dialog.open(SettingsDialogComponent, {
       data: room,
@@ -174,5 +201,15 @@ export class RoomComponent {
         this.roomService.updateRoom(room.id, result);
       }
     });
+  }
+
+  shortRoomId(name: string): string {
+    if (!name) return '';
+    if (name.length <= 12) return name;
+    return name.slice(-12).replace(/[^A-Za-z0-9]/g, '').slice(0, 8) || name.slice(-8);
+  }
+
+  pad2(n: number): string {
+    return String(n).padStart(2, '0');
   }
 }

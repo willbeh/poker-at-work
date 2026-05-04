@@ -1,28 +1,38 @@
-<div class="flex items-center justify-between mb-4">
-  <h2 class="text-xl font-bold text-gray-800">Presence</h2>
-  <button mat-icon-button
-          (click)="onToggleSelfViewer()"
-          [matTooltip]="isCurrentUserViewer ? 'Switch to voter' : 'Switch to viewer'">
-    <mat-icon [ngClass]="isCurrentUserViewer ? 'text-blue-500' : 'text-gray-400'">
-      {{ isCurrentUserViewer ? 'visibility' : 'visibility_off' }}
-    </mat-icon>
+@if (people$ | async; as people) {
+<div class="flex items-center justify-between mb-3 px-1">
+  <span class="font-mono-label text-ink-muted">PRESENCE</span>
+  <span class="bg-ink text-bg rounded-full px-2.5 py-0.5 text-xs font-mono">{{ people.length }}</span>
+</div>
+<div class="flex flex-col gap-2">
+  @for (presence of people; track presence.uid) {
+  <div class="presence-card" [class.is-self]="presence.uid === currentUserId">
+    <div class="avatar" [ngStyle]="avatarStyle(presence.uid)">{{ initials(presence.name) }}</div>
+    <div class="flex-1 min-w-0">
+      <div class="font-semibold text-ink truncate text-sm">
+        @if (presence.uid === currentUserId) { You (you) } @else { {{ presence.name }} }
+      </div>
+      <div class="font-mono-label text-ink-muted mt-0.5">
+        @if (presence.isViewer) { VIEWER }
+        @else if (hasVoted(presence.uid)) { VOTED }
+        @else { THINKING… }
+      </div>
+    </div>
+    <div class="shrink-0">
+      @if (presence.isViewer) {
+        <mat-icon class="text-base" style="font-size:18px;width:18px;height:18px;color:var(--ink-muted);">visibility</mat-icon>
+      } @else if (voteDisplay(presence.uid); as v) {
+        <span class="vote-badge">{{ v }}</span>
+      } @else {
+        <span class="status-dot" [class.voted]="hasVoted(presence.uid)"></span>
+      }
+    </div>
+  </div>
+  }
+</div>
+<div class="mt-3 px-1">
+  <button (click)="onToggleSelfViewer()"
+    class="font-mono-label text-ink-muted hover:text-ink underline-offset-2 hover:underline">
+    {{ isCurrentUserViewer ? 'SWITCH TO VOTER' : 'SWITCH TO VIEWER' }}
   </button>
 </div>
-@if (people$ | async; as people) {
-  <div class="flex flex-col gap-2">
-    @for (presence of people; track presence) {
-      <div
-        class="bg-white shadow-sm rounded-lg border border-gray-200 p-3 flex items-center justify-between gap-3">
-        <div class="font-medium text-gray-700 truncate flex-1 min-w-0" title="{{ presence.name }}">
-          {{ presence.name }}
-          @if (presence.isViewer) {
-            <span class="text-xs text-blue-500 ml-1">(viewer)</span>
-          }
-        </div>
-        <div class="shrink-0">
-          <ng-container *ngTemplateOutlet="templateOutlet; context: { $implicit: presence }"></ng-container>
-        </div>
-      </div>
-    }
-  </div>
 }

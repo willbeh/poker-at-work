@@ -34,3 +34,26 @@ $poker-at-work-theme: mat.m2-define-light-theme((color: (primary: $poker-at-work
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($poker-at-work-theme);
+
+:root {
+  --bg: #F5F4EE;
+  --surface: #FFFFFF;
+  --ink: #0E0F0C;
+  --ink-muted: #6B6F66;
+  --accent: #B8E04A;
+  --accent-ink: #1F3A0E;
+  --border: #E5E3D8;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', 'Roboto', ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-mono-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}

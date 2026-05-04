@@ -1,16 +1,37 @@
-<div class="flex flex-col mt-20 justify-center items-center">
-  @if (authUser$ | async; as user) {
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="createNewRoom(user.uid)"
-      >
-      New Room
-    </button>
-  } @else {
-    <a mat-raised-button color="primary" [routerLink]="['/login']">
-      Login to create new room
-    </a>
-  }
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-tile">P</div>
+    <div>
+      <div class="brand-title">Poker at Work</div>
+      <div class="brand-sub">Estimation Studio</div>
+    </div>
+  </div>
+</header>
 
-</div>
+<main class="hero">
+  <span class="hero-eyebrow">Planning Poker · Free · Real-time</span>
+
+  <h1 class="hero-title">
+    Estimate stories,<br><span>reach consensus.</span>
+  </h1>
+
+  <p class="hero-desc">
+    Fast, collaborative story-point voting for your team — no sign-up required.
+  </p>
+
+  @if (authUser$ | async; as user) {
+  <button class="cta" (click)="createNewRoom(user.uid)">
+    Create a room
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  } @else {
+  <a class="cta-login" [routerLink]="['/login']">
+    Sign in to get started
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+  }
+</main>

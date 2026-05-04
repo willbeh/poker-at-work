@@ -1,25 +1,33 @@
-<h2 class="text-xl font-bold mb-4 text-gray-800">Average voted story points</h2>
-@if (stories$ | async; as stories) {
-  <div class="space-y-4">
-    @if (stories.length === 0) {
-      <div class="text-gray-500 italic p-4 bg-gray-50 rounded-lg border border-gray-200">
-        No voting results yet.
-      </div>
-    }
-    @for (story of stories; track story) {
-      <div>
-        @if (story.status === 'completed') {
-          <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-4">
-            <div class="flex justify-between items-center mb-2">
-              <div class="flex items-center">
-                <span class="text-gray-600 mr-2">Average:</span>
-                <span class="text-lg font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{{ story.average }}</span>
-              </div>
-              <span class="text-sm text-gray-500">{{ story.date | date : "medium" }}</span>
-            </div>
-          </div>
-        }
-      </div>
-    }
+@if (rounds$ | async; as rounds) {
+<div class="flex items-center justify-between mb-3 px-1">
+  <span class="font-mono-label text-ink-muted">ROUND HISTORY</span>
+  <span class="font-mono-label text-ink-muted">{{ rounds.length }} {{ rounds.length === 1 ? 'ROUND' : 'ROUNDS' }}</span>
+</div>
+@if (rounds.length === 0) {
+<div class="history-card text-center text-ink-muted text-sm">
+  No completed rounds yet.
+</div>
+}
+<div class="flex flex-col gap-2.5">
+  @for (round of rounds; track round.id) {
+  <div class="history-card flex items-center gap-3" [class.consensus]="round.consensus">
+    <div class="flex flex-wrap gap-1 flex-1 min-w-0 items-center">
+      @for (v of round.votes.slice(0, 5); track $index) {
+      <span class="chip">{{ displayVote(v) }}</span>
+      }
+      @if (round.votes.length > 5) {
+      <span class="chip">+{{ round.votes.length - 5 }}</span>
+      }
+    </div>
+    <div class="flex flex-col items-end gap-1 shrink-0">
+      <span class="tag" [class.consensus]="round.consensus">
+        @if (round.consensus) { ✓ Consensus }
+        @else { Range {{ round.min }}–{{ round.max }} }
+      </span>
+      <span class="font-mono-label text-ink-muted">{{ round.ago }}</span>
+    </div>
+    <div class="result shrink-0 ml-1" [class.consensus]="round.consensus">{{ round.average }}</div>
   </div>
+  }
+</div>
 }
