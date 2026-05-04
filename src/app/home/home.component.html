@@ -3,7 +3,6 @@
     <div class="brand-tile">P</div>
     <div>
       <div class="brand-title">Poker at Work</div>
-      <div class="brand-sub">Estimation Studio</div>
     </div>
   </div>
 </header>
@@ -23,14 +22,16 @@
   <button class="cta" (click)="createNewRoom(user.uid)">
     Create a room
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+        stroke-linejoin="round" />
     </svg>
   </button>
   } @else {
   <a class="cta-login" [routerLink]="['/login']">
     Sign in to get started
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+        stroke-linejoin="round" />
     </svg>
   </a>
   }
