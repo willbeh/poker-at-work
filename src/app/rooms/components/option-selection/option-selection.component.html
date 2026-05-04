@@ -1,24 +1,26 @@
 <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
-  @for (option of options; track option) {
+  @for (option of options; track option; let i = $index) {
   <button
     type="button"
     (click)="select(option)"
-    class="vote-card group relative aspect-[3/4] rounded-xl border bg-surface transition-all"
-    [class.is-selected]="option === selectedOption">
-    <span class="font-mono-label absolute top-2 left-2 text-ink-muted">{{ option }}</span>
-    <span class="absolute inset-0 flex items-center justify-center text-4xl sm:text-5xl font-bold text-ink">{{ option }}</span>
-    <span class="font-mono-label absolute bottom-2 right-2 rotate-180 text-ink-muted">{{ option }}</span>
+    class="card-btn aspect-[3/4]">
+    <app-playing-card
+      [value]="option"
+      [index]="i"
+      [isSelected]="option === selectedOption">
+    </app-playing-card>
   </button>
   }
   @if (allowUnsure) {
   <button
     type="button"
     (click)="select(-1)"
-    class="vote-card group relative aspect-[3/4] rounded-xl border bg-surface transition-all"
-    [class.is-selected]="selectedOption === -1">
-    <span class="font-mono-label absolute top-2 left-2 text-ink-muted">?</span>
-    <span class="absolute inset-0 flex items-center justify-center text-4xl sm:text-5xl font-bold text-accent-ink">?</span>
-    <span class="font-mono-label absolute bottom-2 right-2 rotate-180 text-ink-muted">?</span>
+    class="card-btn aspect-[3/4]">
+    <app-playing-card
+      [value]="-1"
+      [index]="options.length"
+      [isSelected]="selectedOption === -1">
+    </app-playing-card>
   </button>
   }
 </div>

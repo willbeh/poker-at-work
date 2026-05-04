@@ -6,9 +6,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { avatarColor, initials } from 'src/app/shared/utils/avatar';
 import { BehaviorSubject, EMPTY, combineLatest } from 'rxjs';
 import {
+  debounceTime,
   map,
   shareReplay,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { PresenceComponent } from '../../components/presence/presence.component';
@@ -111,6 +113,18 @@ export class RoomComponent {
       };
     }),
     shareReplay(1)
+  );
+
+  updater$ = combineLatest([this.presence$, this.story$]).pipe(
+    debounceTime(1000),
+    shareReplay(1),
+    tap(([presence, story]) => {
+      const voters = presence.filter((p) => !p.isViewer);
+      const notVoted = voters.filter((p) => story.votes?.[p.uid] === undefined);
+      if (notVoted.length === 0 && voters.length > 0) {
+        this.roomService.processStory(story);
+      }
+    })
   );
 
   isCurrentUserViewer$ = combineLatest([this.presence$, this.authService.user$]).pipe(

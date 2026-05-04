@@ -54,4 +54,15 @@ The `RoomComponent` orchestrates the main poker session, combining room data, pr
 
 - Angular Material for UI components
 - Tailwind CSS for utility classes
-- SCSS with inline styles in components (configured in angular.json)
+- SCSS files (configured in angular.json)
+
+### Component File Convention
+
+Always use separate files for templates and styles — never inline `template`/`styles` in the decorator:
+
+```
+component-name/
+  component-name.component.ts       ← uses templateUrl + styleUrl
+  component-name.component.html
+  component-name.component.scss
+```

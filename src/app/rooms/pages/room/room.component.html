@@ -110,6 +110,7 @@
       <app-confetti [load]="story.sameVoteResults" />
       }
 
+      @if (vm.room.owner === vm.user.uid) { @if (updater$ | async) {} }
     </section>
 
     <aside class="right-col">

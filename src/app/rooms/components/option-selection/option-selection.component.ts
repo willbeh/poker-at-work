@@ -1,24 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PlayingCardComponent } from '../playing-card/playing-card.component';
 
 @Component({
   selector: 'app-option-selection',
-  imports: [CommonModule],
+  imports: [CommonModule, PlayingCardComponent],
   templateUrl: './option-selection.component.html',
   styles: [`
-    .vote-card {
-      border-color: var(--border);
+    .card-btn {
+      background: none;
+      border: none;
+      padding: 0;
       cursor: pointer;
-    }
-    .vote-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(14, 15, 12, 0.06);
-    }
-    .vote-card.is-selected {
-      border-color: var(--ink);
-      border-width: 2px;
-      transform: translateY(-4px);
-      box-shadow: 0 10px 24px rgba(14, 15, 12, 0.12);
     }
   `]
 })
