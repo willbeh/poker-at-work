@@ -14,6 +14,7 @@ import {
   orderByChild,
   update,
 } from '@angular/fire/database';
+import { Analytics, logEvent } from '@angular/fire/analytics';
 import { map, shareReplay } from 'rxjs';
 import { Presence } from '../models/presence';
 import { Room } from '../models/room';
@@ -22,6 +23,7 @@ import { Story } from '../models/story';
 @Injectable({ providedIn: 'root' })
 export class RoomService {
   private db = inject(Database);
+  private analytics = inject(Analytics);
   private colRef = ref(this.db, 'rooms');
 
   createRoom(uid: string) {
@@ -33,6 +35,7 @@ export class RoomService {
     });
 
     this.createStory(room.key!);
+    logEvent(this.analytics, 'create_room');
 
     return room;
   }
@@ -62,6 +65,9 @@ export class RoomService {
   }
 
   updateStoryVote(storyId: string, uid: string, vote: number | null) {
+    if (vote !== null) {
+      logEvent(this.analytics, 'vote_selected', { vote_value: vote });
+    }
     return set(ref(this.db, `stories/${storyId}/votes/${uid}`), vote);
   }
 
@@ -94,6 +100,7 @@ export class RoomService {
     const average = sum / votes.length || 0;
 
     this.updateStory(story.id!, { average, status: 'completed' });
+    logEvent(this.analytics, 'round_completed', { average_vote: average, voter_count: votes.length });
   }
 
   getPresence(roomId: string) {

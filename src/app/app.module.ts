@@ -1,4 +1,4 @@
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,17 +17,15 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-
-  ],
-  providers: [ScreenTrackingService, UserTrackingService,
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+  providers: [
+    ScreenTrackingService,
+    UserTrackingService,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase()),],
+    provideDatabase(() => getDatabase()),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
