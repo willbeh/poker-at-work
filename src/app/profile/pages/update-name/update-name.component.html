@@ -1,18 +1,27 @@
-<div class="flex flex-col mt-20 justify-center items-center">
-  @if (vm$ | async; as vm) {
-    <form [formGroup]="formGroup">
-      <mat-form-field class="w-full" [appearance]="'outline'">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="updateName(vm.user, vm.path)"
-        [disabled]="formGroup.invalid"
-        >
-        Submit
-      </button>
-    </form>
-  }
+<div class="shell">
+  <app-topbar></app-topbar>
+  <main class="hero">
+    <div class="card">
+      <span class="eyebrow">Display name</span>
+      <h1 class="card-title">What's your name?</h1>
+      <p class="card-desc">This is how other participants will see you during estimation sessions.</p>
+
+      @if (vm$ | async; as vm) {
+        <form [formGroup]="formGroup" (ngSubmit)="updateName(vm.user, vm.path)" class="form">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Your name</mat-label>
+            <input matInput formControlName="name" autocomplete="off" />
+          </mat-form-field>
+          <button class="submit-btn" type="submit" [disabled]="formGroup.invalid">
+            Continue
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+        <a [routerLink]="['/']" class="back-link">← Back to home</a>
+      }
+    </div>
+  </main>
 </div>

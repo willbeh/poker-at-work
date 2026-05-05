@@ -9,10 +9,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from '@angular/fire/auth';
+import { TopbarComponent } from 'src/app/shared/component/topbar/topbar.component';
 
 @Component({
     selector: 'app-update-name',
@@ -21,11 +21,11 @@ import { User } from '@angular/fire/auth';
         RouterModule,
         MatFormFieldModule,
         MatInputModule,
-        MatButtonModule,
         ReactiveFormsModule,
+        TopbarComponent,
     ],
     templateUrl: './update-name.component.html',
-    styles: []
+    styleUrl: './update-name.component.scss',
 })
 export class UpdateNameComponent {
   private router = inject(Router);
