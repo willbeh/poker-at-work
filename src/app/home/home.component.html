@@ -7,10 +7,6 @@
     Estimate stories,<br><span>reach consensus.</span>
   </h1>
 
-  <p class="hero-desc">
-    Fast, collaborative story-point voting for your team — no sign-up required.
-  </p>
-
   @if (authUser$ | async; as user) {
   <button class="cta" (click)="createNewRoom(user.uid)">
     Create a room
