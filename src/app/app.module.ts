@@ -14,6 +14,7 @@ import {
 } from '@angular/fire/analytics';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { providePerformance, getPerformance } from '@angular/fire/performance';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
+    providePerformance(() => getPerformance()),
   ],
   bootstrap: [AppComponent],
 })
