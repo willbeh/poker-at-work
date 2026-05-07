@@ -3,6 +3,16 @@
   <span class="font-mono-label text-ink-muted">PRESENCE</span>
   <span class="bg-ink text-bg rounded-full px-2.5 py-0.5 text-xs font-mono">{{ people.length }}</span>
 </div>
+<div class="seg-toggle mb-3">
+  <button type="button" class="seg-btn" [class.active]="!isCurrentUserViewer"
+    (click)="setViewer(false)">
+    <mat-icon class="seg-icon">how_to_vote</mat-icon> VOTER
+  </button>
+  <button type="button" class="seg-btn" [class.active]="isCurrentUserViewer"
+    (click)="setViewer(true)">
+    <mat-icon class="seg-icon">visibility</mat-icon> VIEWER
+  </button>
+</div>
 <div class="flex flex-col gap-2">
   @for (presence of people; track presence.uid) {
   <div class="presence-card" [class.is-self]="presence.uid === currentUserId">
@@ -28,11 +38,5 @@
     </div>
   </div>
   }
-</div>
-<div class="mt-3 px-1">
-  <button (click)="onToggleSelfViewer()"
-    class="font-mono-label text-ink-muted hover:text-ink underline-offset-2 hover:underline">
-    {{ isCurrentUserViewer ? 'SWITCH TO VOTER' : 'SWITCH TO VIEWER' }}
-  </button>
 </div>
 }

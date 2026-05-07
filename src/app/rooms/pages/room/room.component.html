@@ -1,117 +1,171 @@
 @if (vm$ | async; as vm) {
-<div class="app-shell">
-  <app-topbar variant="room">
-    <button class="room-pill" (click)="copyLink()" matTooltip="Copy room link">
-      <span class="dot"></span>
-      <span>copy room</span>
-      <mat-icon style="font-size:16px;width:16px;height:16px;">{{ copied ? 'done' : 'content_copy' }}</mat-icon>
-    </button>
-
-    <div class="flex items-center gap-2">
-      @if (vm.room.owner === vm.user.uid) {
-      <button class="icon-btn" (click)="openSettings(vm.room)" matTooltip="Room settings">
-        <mat-icon style="font-size:20px;width:20px;height:20px;">settings</mat-icon>
+  <div class="app-shell">
+    <app-topbar variant="room">
+      <button
+        class="room-pill"
+        (click)="copyLink()"
+        matTooltip="Copy room link"
+      >
+        <span class="dot"></span>
+        <span>copy room</span>
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px">{{
+          copied ? "done" : "content_copy"
+        }}</mat-icon>
       </button>
-      }
-      <button class="avatar-btn" [matMenuTriggerFor]="profileMenu">
-        @if (vm.user.photoURL) {
-        <img class="avatar-img" [src]="vm.user.photoURL" [alt]="vm.user.displayName ?? ''"
-          referrerpolicy="no-referrer" />
-        } @else {
-        <span class="avatar-initials" [style.background]="avatarColor(vm.user.uid).bg"
-          [style.color]="avatarColor(vm.user.uid).fg">
-          {{ initials(vm.user.displayName) }}
-        </span>
+
+      <div class="flex items-center gap-2">
+        @if (vm.room.owner === vm.user.uid) {
+          <button
+            class="icon-btn"
+            (click)="openSettings(vm.room)"
+            matTooltip="Room settings"
+          >
+            <mat-icon style="font-size: 20px; width: 20px; height: 20px"
+              >settings</mat-icon
+            >
+          </button>
         }
-      </button>
-      <mat-menu #profileMenu="matMenu" xPosition="before">
-        <button mat-menu-item (click)="signOut()">
-          <mat-icon>logout</mat-icon>
-          <span>Sign out</span>
+        <button class="avatar-btn" [matMenuTriggerFor]="profileMenu">
+          @if (vm.user.photoURL) {
+            <img
+              class="avatar-img"
+              [src]="vm.user.photoURL"
+              [alt]="vm.user.displayName ?? ''"
+              referrerpolicy="no-referrer"
+            />
+          } @else {
+            <span
+              class="avatar-initials"
+              [style.background]="avatarColor(vm.user.uid).bg"
+              [style.color]="avatarColor(vm.user.uid).fg"
+            >
+              {{ initials(vm.user.displayName) }}
+            </span>
+          }
         </button>
-      </mat-menu>
+        <mat-menu #profileMenu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="signOut()">
+            <mat-icon>logout</mat-icon>
+            <span>Sign out</span>
+          </button>
+        </mat-menu>
+      </div>
+    </app-topbar>
+
+    <div class="workspace">
+      <aside class="panel">
+        @if (story$ | async; as story) {
+          <app-presence
+            [roomId]="vm.room.id!"
+            [currentUserId]="vm.user.uid"
+            [votedUids]="(voteStats$ | async)?.votedUids ?? []"
+            [votes]="story.status === 'completed' ? story.votes : undefined"
+            (toggleViewer)="toggleViewerStatus($event.uid, $event.isViewer)"
+          />
+        }
+      </aside>
+
+      <section class="center-col">
+        @if (story$ | async; as story) {
+          @if (voteStats$ | async; as stats) {
+            <div class="status-row">
+              <span class="status-label">
+                <span class="dot"></span>
+                @if (story.status === "active") {
+                  voting in progress
+                } @else {
+                  votes revealed
+                }
+              </span>
+              <div class="progress">
+                <div
+                  class="progress-fill"
+                  [style.width.%]="
+                    stats.total > 0 ? (stats.voted / stats.total) * 100 : 0
+                  "
+                ></div>
+              </div>
+              <span class="status-meta">
+                {{ stats.voted }}/{{ stats.total }} voted · round
+                {{ pad2((roundNumber$ | async) ?? 1) }}
+              </span>
+            </div>
+          }
+
+          @if (story.status === "active") {
+            <h1 class="section-title">Pick your number</h1>
+            @if (isCurrentUserViewer$ | async) {
+              <div class="viewer-banner">
+                <mat-icon style="color: var(--ink-muted)">visibility</mat-icon>
+                <div>
+                  <div class="font-semibold text-ink">
+                    You are viewing this session
+                  </div>
+                  <div class="font-mono-label mt-1">
+                    Watching only — switch to voter in the presence panel
+                  </div>
+                </div>
+              </div>
+            } @else {
+              <app-option-selection
+                [options]="vm.room.options"
+                [allowUnsure]="vm.room.allowUnsure ?? true"
+                (selected)="
+                  updateStoryVote(vm.room.storyId, vm.user.uid, $event)
+                "
+              />
+            }
+            @if (
+              vm.room.owner === vm.user.uid ||
+              (vm.room.whoCanReveal === "anyone" &&
+                !(isCurrentUserViewer$ | async))
+            ) {
+              <button
+                class="reveal-btn"
+                (click)="manualComplete(story)"
+                [disabled]="!story.votes"
+              >
+                Reveal cards
+                <span class="kbd">↵</span>
+              </button>
+            }
+          } @else if (story.sameVoteResults) {
+            <h1 class="section-title">Perfect consensus!</h1>
+            <app-celebration-cards
+              [options]="vm.room.options"
+              [allowUnsure]="vm.room.allowUnsure ?? true"
+              [winningValue]="winningVote(story)"
+            />
+            @if (vm.room.owner === vm.user.uid) {
+              <button class="reveal-btn" (click)="newStory(vm.room.id!)">
+                New round
+              </button>
+            }
+          } @else {
+            <h1 class="section-title">Results</h1>
+            <div class="average-panel">
+              <div class="average-label">Average story points</div>
+              <div class="average-value">{{ story.average }}</div>
+            </div>
+            @if (vm.room.owner === vm.user.uid) {
+              <button class="reveal-btn" (click)="newStory(vm.room.id!)">
+                New round
+                <span class="kbd">R</span>
+              </button>
+            }
+          }
+
+          <app-confetti [load]="story.sameVoteResults" />
+        }
+
+        @if (vm.room.owner === vm.user.uid) {
+          @if (updater$ | async) {}
+        }
+      </section>
+
+      <aside class="right-col">
+        <app-story-list [roomId]="vm.room.id!" />
+      </aside>
     </div>
-  </app-topbar>
-
-  <div class="workspace">
-    <aside class="panel">
-      @if (story$ | async; as story) {
-      <app-presence [roomId]="vm.room.id!" [currentUserId]="vm.user.uid"
-        [votedUids]="(voteStats$ | async)?.votedUids ?? []"
-        [votes]="story.status === 'completed' ? story.votes : undefined"
-        (toggleViewer)="toggleViewerStatus($event.uid, $event.isViewer)" />
-      }
-    </aside>
-
-    <section class="center-col">
-      @if (story$ | async; as story) {
-      @if (voteStats$ | async; as stats) {
-      <div class="status-row">
-        <span class="status-label">
-          <span class="dot"></span>
-          @if (story.status === 'active') { voting in progress } @else { votes revealed }
-        </span>
-        <div class="progress">
-          <div class="progress-fill" [style.width.%]="stats.total > 0 ? (stats.voted / stats.total) * 100 : 0"></div>
-        </div>
-        <span class="status-meta">
-          {{ stats.voted }}/{{ stats.total }} voted · round {{ pad2((roundNumber$ | async) ?? 1) }}
-        </span>
-      </div>
-      }
-
-      @if (story.status === 'active') {
-      <h1 class="section-title">Pick your number</h1>
-      @if (isCurrentUserViewer$ | async) {
-      <div class="viewer-banner">
-        <mat-icon style="color:var(--ink-muted);">visibility</mat-icon>
-        <div>
-          <div class="font-semibold text-ink">You are viewing this session</div>
-          <div class="font-mono-label mt-1">Watching only — switch to voter in the presence panel</div>
-        </div>
-      </div>
-      } @else {
-      <app-option-selection [options]="vm.room.options" [allowUnsure]="vm.room.allowUnsure ?? true"
-        (selected)="updateStoryVote(vm.room.storyId, vm.user.uid, $event)" />
-      }
-      @if (vm.room.owner === vm.user.uid || (vm.room.whoCanReveal === 'anyone' && !(isCurrentUserViewer$ | async))) {
-      <button class="reveal-btn" (click)="manualComplete(story)" [disabled]="!story.votes">
-        Reveal cards
-        <span class="kbd">↵</span>
-      </button>
-      }
-      } @else if (story.sameVoteResults) {
-      <h1 class="section-title">Perfect consensus!</h1>
-      <app-celebration-cards [options]="vm.room.options" [allowUnsure]="vm.room.allowUnsure ?? true"
-        [winningValue]="winningVote(story)" />
-      @if (vm.room.owner === vm.user.uid) {
-      <button class="reveal-btn" (click)="newStory(vm.room.id!)">
-        New round
-      </button>
-      }
-      } @else {
-      <h1 class="section-title">Results</h1>
-      <div class="average-panel">
-        <div class="average-label">Average story points</div>
-        <div class="average-value">{{ story.average }}</div>
-      </div>
-      @if (vm.room.owner === vm.user.uid) {
-      <button class="reveal-btn" (click)="newStory(vm.room.id!)">
-        New round
-        <span class="kbd">R</span>
-      </button>
-      }
-      }
-
-      <app-confetti [load]="story.sameVoteResults" />
-      }
-
-      @if (vm.room.owner === vm.user.uid) { @if (updater$ | async) {} }
-    </section>
-
-    <aside class="right-col">
-      <app-story-list [roomId]="vm.room.id!" />
-    </aside>
   </div>
-</div>
 }

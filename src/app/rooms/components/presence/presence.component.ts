@@ -69,6 +69,42 @@ import { avatarColor, initials } from '../../../shared/utils/avatar';
       font-size: 14px;
       padding: 0 8px;
     }
+    .seg-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+    }
+    .seg-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .seg-btn.active {
+      color: var(--ink);
+      background: var(--bg);
+      border-color: var(--ink);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    }
+    .seg-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
   `]
 })
 export class PresenceComponent implements OnInit {
@@ -98,6 +134,10 @@ export class PresenceComponent implements OnInit {
 
   onToggleSelfViewer() {
     this.toggleViewer.emit({ uid: this.currentUserId, isViewer: this.isCurrentUserViewer });
+  }
+
+  setViewer(v: boolean) {
+    if (this.isCurrentUserViewer !== v) this.onToggleSelfViewer();
   }
 
   initials(name?: string | null) {
