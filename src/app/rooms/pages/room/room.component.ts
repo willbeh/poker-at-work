@@ -29,6 +29,7 @@ import { ConfettiComponent } from 'src/app/shared/component/confetti/confetti.co
 import { CelebrationCardsComponent } from '../../components/celebration-cards/celebration-cards.component';
 
 import { TopbarComponent } from 'src/app/shared/component/topbar/topbar.component';
+import { RangeBadgeComponent } from '../../components/range-badge/range-badge.component';
 
 @Component({
   selector: 'app-room',
@@ -47,6 +48,7 @@ import { TopbarComponent } from 'src/app/shared/component/topbar/topbar.componen
     ConfettiComponent,
     CelebrationCardsComponent,
     TopbarComponent,
+    RangeBadgeComponent,
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss',
@@ -161,6 +163,14 @@ export class RoomComponent {
 
   winningVote(story: Story): number {
     return story.votes ? +Object.values(story.votes)[0] : 0;
+  }
+
+  voteRange(story: Story): { min: number; max: number } {
+    const numeric = Object.values(story.votes ?? {}).filter(v => v > 0);
+    return {
+      min: numeric.length ? Math.min(...numeric) : 0,
+      max: numeric.length ? Math.max(...numeric) : 0,
+    };
   }
 
   updateStoryVote(storyId: string, uid: string, vote: number | null) {

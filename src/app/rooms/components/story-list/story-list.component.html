@@ -12,10 +12,7 @@
   @for (round of rounds; track round.id) {
   <div class="history-card flex items-center gap-3" [class.consensus]="round.consensus">
     <div class="flex flex-col gap-1 flex-1 min-w-0">
-      <span class="tag" [class.consensus]="round.consensus">
-        @if (round.consensus) { ✓ Consensus }
-        @else { Range {{ round.min }}–{{ round.max }} }
-      </span>
+      <app-range-badge [min]="round.min" [max]="round.max" [consensus]="round.consensus" [options]="options" />
       <span class="font-mono-label text-ink-muted">{{ round.ago }}</span>
     </div>
     <div class="result shrink-0 ml-1" [class.consensus]="round.consensus">{{ round.average | number:'1.0-2' }}</div>

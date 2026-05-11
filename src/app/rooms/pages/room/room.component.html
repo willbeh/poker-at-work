@@ -146,6 +146,7 @@
             <div class="average-panel">
               <div class="average-label">Average story points</div>
               <div class="average-value">{{ story.average | number:'1.0-2' }}</div>
+              <app-range-badge [min]="voteRange(story).min" [max]="voteRange(story).max" [options]="vm.room.options" />
             </div>
             @if (vm.room.owner === vm.user.uid) {
               <button class="reveal-btn" (click)="newStory(vm.room.id!)">
@@ -164,7 +165,7 @@
       </section>
 
       <aside class="right-col">
-        <app-story-list [roomId]="vm.room.id!" />
+        <app-story-list [roomId]="vm.room.id!" [options]="vm.room.options" />
       </aside>
     </div>
   </div>

@@ -4,6 +4,7 @@ import { RoomService } from '../../services/room.service';
 import { map, Observable } from 'rxjs';
 import { Story } from '../../models/story';
 import { timeAgo } from '../../../shared/utils/time-ago';
+import { RangeBadgeComponent } from '../range-badge/range-badge.component';
 
 interface RoundView {
   id: string;
@@ -18,7 +19,7 @@ interface RoundView {
 
 @Component({
   selector: 'app-story-list',
-  imports: [CommonModule],
+  imports: [CommonModule, RangeBadgeComponent],
   templateUrl: './story-list.component.html',
   styles: [`
     .history-card {
@@ -45,20 +46,6 @@ interface RoundView {
       font-weight: 600;
       color: var(--ink);
     }
-    .tag {
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 9999px;
-      background: var(--bg);
-      color: var(--ink-muted);
-    }
-    .tag.consensus {
-      background: var(--accent);
-      color: var(--accent-ink);
-    }
     .result {
       font-size: 28px;
       font-weight: 700;
@@ -73,6 +60,7 @@ export class StoryListComponent implements OnInit {
   private roomService = inject(RoomService);
 
   @Input() roomId: string = '';
+  @Input() options: number[] = [];
 
   rounds$ = new Observable<RoundView[]>();
 
