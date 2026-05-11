@@ -145,7 +145,7 @@
             <h1 class="section-title">Results</h1>
             <div class="average-panel">
               <div class="average-label">Average story points</div>
-              <div class="average-value">{{ story.average }}</div>
+              <div class="average-value">{{ story.average | number:'1.0-2' }}</div>
             </div>
             @if (vm.room.owner === vm.user.uid) {
               <button class="reveal-btn" (click)="newStory(vm.room.id!)">

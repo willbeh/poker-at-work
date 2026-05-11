@@ -26,7 +26,7 @@
       </span>
       <span class="font-mono-label text-ink-muted">{{ round.ago }}</span>
     </div>
-    <div class="result shrink-0 ml-1" [class.consensus]="round.consensus">{{ round.average }}</div>
+    <div class="result shrink-0 ml-1" [class.consensus]="round.consensus">{{ round.average | number:'1.0-2' }}</div>
   </div>
   }
 </div>
