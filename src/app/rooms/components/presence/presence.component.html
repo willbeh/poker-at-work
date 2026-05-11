@@ -32,8 +32,10 @@
         <mat-icon class="text-base" style="font-size:18px;width:18px;height:18px;color:var(--ink-muted);">visibility</mat-icon>
       } @else if (voteDisplay(presence.uid); as v) {
         <span class="vote-badge">{{ v }}</span>
+      } @else if (hasVoted(presence.uid)) {
+        <mat-icon class="voted-check">check_circle</mat-icon>
       } @else {
-        <span class="status-dot" [class.voted]="hasVoted(presence.uid)"></span>
+        <span class="status-dot"></span>
       }
     </div>
   </div>

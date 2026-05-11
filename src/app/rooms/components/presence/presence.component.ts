@@ -51,10 +51,12 @@ import { avatarColor, initials } from '../../../shared/utils/avatar';
       background: var(--ink-muted);
       opacity: 0.4;
     }
-    .status-dot.voted {
-      background: var(--accent);
-      opacity: 1;
-      box-shadow: 0 0 0 4px rgba(184, 224, 74, 0.2);
+    .voted-check {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      color: var(--accent);
+      display: block;
     }
     .vote-badge {
       min-width: 32px;
